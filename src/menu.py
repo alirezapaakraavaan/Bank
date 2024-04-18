@@ -4,4 +4,5 @@ def menu():
     if role == "1":
         print("Hi user")
     else:
+        code = input("Enter the code: \n\n")
         print("Hi amin")
