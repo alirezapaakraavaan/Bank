@@ -5,4 +5,7 @@ class Bank():
 
 
     def show_details(self):
-        pass
+        with open("Bank.txt", "r") as file:
+            text = file.readlines()
+            text = ''.join(text)
+            print(text)
