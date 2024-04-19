@@ -8,4 +8,7 @@ class Branch():
 
 
     def show_details(self):
-        pass
+        with open("Branch.txt", "r") as file:
+            text = file.readlines()
+            text = ''.join(text)
+            print(text)
