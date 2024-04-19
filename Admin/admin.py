@@ -27,7 +27,7 @@ class Admin():
         name = input("Enter the branch's name: ")
         bank_id = input("Enter the id of this branch's bank: ")
         city_name = input("Enter the name of the city this branch is located at: ")
-        branch = Branch(name, bank_id, number_of_customers=0, budget=0, city_name= city_name)
+        branch = Branch(name, bank_id, 0, city_name)
         save_branch(branch.name, branch.bank_id, branch.number_of_customers, branch.budget, branch.city_name)
 
 

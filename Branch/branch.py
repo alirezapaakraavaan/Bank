@@ -1,8 +1,8 @@
 class Branch():
-    def __init__(self, name, bank_id, number_of_customers, budget, city_name):
+    def __init__(self, name=None, bank_id=None, budget=None, city_name=None):
         self.name = name
         self.bank_id = bank_id
-        self.number_of_customers = number_of_customers
+        self.number_of_customers = 0
         self.budget = budget
         self.city_name = city_name
 
