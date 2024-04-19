@@ -1,6 +1,7 @@
 from Bank.bank import Bank
 from src.save import *
 from Branch.branch import Branch
+from Account.account import Account
 
 class Admin():
     def __init__(self, name, family, national_code, password):
@@ -11,9 +12,10 @@ class Admin():
         save_password(password)
 
 
-    def show_data(self, bank: Bank, branch: Branch):
+    def show_data(self, bank: Bank, branch: Branch, account: Account):
         bank.show_details()
         branch.show_details()
+        account.show_details()
 
 
     def create_bank(self):

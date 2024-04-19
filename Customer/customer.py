@@ -13,10 +13,17 @@ class Customer():
         self.loan_number = loan_number_generator()
 
 
-    def show_details(self):
+    def show_details(self, national_code=None):
         with open("Account.txt", "r") as file:
-            text = file.readlines()
-            text = ''.join(text)
+            for text in file:
+                if national_code in text:
+                    print(text.strip())
+                elif national_code==None:
+                    text = file.readlines()
+                    text = ''.join(text)
+                    print(text)
+                else:
+                    print("User not found!")
             print(text)
 
 
