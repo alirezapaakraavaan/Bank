@@ -1,10 +1,59 @@
 from src.check_password_for_admin import check_password_for_admin
+from Customer.customer import Customer
 
 def menu():
     role = input("\n\nWelcome to the BANK\n\nIf you are a user please enter number 1 and if you are admin enter 2 to enter: ")
 
     if role == "1":
-        print("Hi user")
+        user = int(input("If you have an account enter 1 and if you are new please enter 2: "))
+        if user == 1:
+            customer = Customer()
+            national_code = int(input("Please enter your National code to enter: "))
+            customer.national_code = national_code
+            print(f"Hi {customer.name}\n\n")
+            print("Enter the number of your request\n")
+            request_code = input("1.Request loan\n2.Deposit\n3.Withdraw")
+
+            if request_code == 1:
+                customer.loan_request(customer.account_number, customer.account_amount, customer.customer_branch)
+            elif request_code == 2:
+                deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
+                customer.deposit(deposit_amount, customer.account_number, customer.account_amount)
+            elif request_code == 3:
+                withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
+                customer.withdraw(withdraw_amount, customer.account_number, customer.account_amount)
+            else:
+                print("Exception!!!")
+        else:
+            print("WELCOME\n")
+            customer_name = input("Please enter your name: ")
+            customer_family = input("Please enter your family name: ")
+            customer_natinal_code = int(input("Please enter your national code: "))
+            customer_home_town = input("Please enter your home town: ")
+            customer = Customer(customer_name, customer_family, customer_natinal_code, customer_home_town)
+            print("First you have to apen an account\n")
+
+            with open("Branch.txt", "r") as file:
+                text = file.readlines()
+                text = ''.join(text)
+                print(text)
+
+            customer_branch = input("Please enter the name of branch you want to have your account in it: ")
+            customer.open_acccount(customer_branch)
+            print("Your account just create\n")
+            print("Enter the number of your request\n")
+            request_code = input("1.Request loan\n2.Deposit\n3.Withdraw")
+
+            if request_code == 1:
+                customer.loan_request(customer.account_number, customer.account_amount, customer.customer_branch)
+            elif request_code == 2:
+                deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
+                customer.deposit(deposit_amount, customer.account_number, customer.account_amount)
+            elif request_code == 3:
+                withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
+                customer.withdraw(withdraw_amount, customer.account_number, customer.account_amount)
+            else:
+                print("Exception!!!")
     else:
         password = input("Enter the password: \n\n")
         check_password_for_admin(password)
