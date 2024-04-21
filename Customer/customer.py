@@ -36,8 +36,7 @@ class Customer():
 
 
     @staticmethod
-    def loan_request(self: str, account_number, customer_branch):
-        self = self.split()
+    def loan_request(account_number, customer_branch):
         loan_amount = int(input("Enter the amount of loan you are requesting: "))
 
         with open("Branch.txt", "r") as file:
@@ -75,8 +74,7 @@ class Customer():
 
 
     @staticmethod
-    def deposit(self: str, amount, account_number):
-            self = self.split()
+    def deposit(amount, account_number):
 
             with open("Account.txt", "r") as file:
                 all_text = file.readlines()
@@ -100,9 +98,7 @@ class Customer():
         
 
     @staticmethod
-    def withdraw(self: str, amount, account_number):
-        self = self.split()
-
+    def withdraw(amount, account_number):
         with open("Account.txt", "r") as file:
             all_text = file.readlines()
 
@@ -112,16 +108,22 @@ class Customer():
                     result = line.split()
                     customer_budget = result[-7]
                     customer_budget = int(customer_budget)
-                    customer_budget -= int(amount)
-                    customer_budget = str(customer_budget)
-                    text_list = re.findall(r'\S+|\s', line)
-                    text_list[-14] = customer_budget
-                    all_text[i] = ''.join(text_list)
+                    amount = int(amount)
+                    if amount <= customer_budget:
+                        customer_budget -= int(amount)
+                        customer_budget = str(customer_budget)
+                        text_list = re.findall(r'\S+|\s', line)
+                        text_list[-14] = customer_budget
+                        all_text[i] = ''.join(text_list)
+                        print(f"Your withdraw applied successfully")
+
+                        break
+                    else:
+                        print("Your current amount is less than the withdraw you are requesting!")
 
         with open("Account.txt", "w") as file:
             file.writelines(all_text)
 
-        print(f"Your withdraw applied successfully")
 
 
     def open_acccount(self, branch_name):

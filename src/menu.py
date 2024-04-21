@@ -32,13 +32,13 @@ def menu():
 
                 if request_code == 1:
                     customer_branch_name = words[-2]
-                    Customer.loan_request(customer, account_number, customer_branch_name)
+                    Customer.loan_request(account_number, customer_branch_name)
                 elif request_code == 2:
                     deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
-                    Customer.deposit(customer, deposit_amount, account_number)
+                    Customer.deposit(deposit_amount, account_number)
                 elif request_code == 3:
                     withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
-                    Customer.withdraw(customer, withdraw_amount, account_number)
+                    Customer.withdraw(withdraw_amount, account_number)
                 elif request_code == 4:
                     Customer.show_details(national_code)
                 else:
@@ -49,8 +49,9 @@ def menu():
             print("WELCOME\n")
             customer_name = input("Please enter your name: ")
             customer_family = input("Please enter your family name: ")
-            customer_natinal_code = int(input("Please enter your national code: "))
+            customer_natinal_code = input("Please enter your national code: ")
             customer_home_town = input("Please enter your home town: ")
+
             customer = Customer(customer_name, customer_family, customer_natinal_code, customer_home_town)
             print("First you have to apen an account\n")
 
@@ -65,14 +66,33 @@ def menu():
             print("Enter the number of your request\n")
             request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
 
+
+            national_code = customer_natinal_code
+            #customer = get_customer_details(national_code)
+            account_number = ""
+
+            with open("Account.txt", "r") as file:
+                all_text = file.readlines()
+                for i, line in enumerate(all_text):
+                    if national_code in line:
+                        all_text[i] = line.strip()
+                        words = all_text[i].split()
+                        customer_name = words[1]
+
+            all_text[i] = line.replace(line, "")
+
+            account_number = words[12]
+
             if request_code == 1:
-                customer.loan_request(customer.account_number, customer.customer_branch)
+                customer.loan_request(account_number, customer_branch)
             elif request_code == 2:
                 deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
-                customer.deposit(deposit_amount, customer.account_number, customer.account_amount)
+                customer.deposit(deposit_amount, account_number)
             elif request_code == 3:
                 withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
-                customer.withdraw(withdraw_amount, customer.account_number, customer.account_amount)
+                customer.withdraw(withdraw_amount, account_number)
+            elif request_code == 4:
+                    customer.show_details(national_code)
             else:
                 print("Exception!!!")
     else:
