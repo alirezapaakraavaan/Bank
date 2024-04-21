@@ -73,21 +73,53 @@ class Customer():
 
 
     @staticmethod
-    def deposit(self, amount, account_number, account_amount):
-        if self.account_number == account_number:
-            account_amount += amount
-            return account_amount
-        else:
-            print("Exception!!!")
+    def deposit(self: str, amount, account_number):
+            self = self.split()
 
+            with open("Account.txt", "r") as file:
+                all_text = file.readlines()
+
+            with open("Account.txt", "w") as file:
+                for i, line in enumerate(all_text):
+                    if account_number in line:
+                        result = line.split()
+                        customer_budget = result[-7]
+                        customer_budget = int(customer_budget)
+                        customer_budget += int(amount)
+                        customer_budget = str(customer_budget)
+                        text_list = re.findall(r'\S+|\s', line)
+                        text_list[-14] = customer_budget
+                        all_text[i] = ''.join(text_list)
+
+            with open("Account.txt", "w") as file:
+                file.writelines(all_text)
+
+            print(f"Your deposit applied successfully")    
+        
 
     @staticmethod
-    def withdraw(self, amount, account_number, account_amount):
-        if self.account_number == account_number:
-            account_amount -= amount
-            return account_amount
-        else:
-            print("Exception!!!")
+    def withdraw(self: str, amount, account_number):
+        self = self.split()
+
+        with open("Account.txt", "r") as file:
+            all_text = file.readlines()
+
+        with open("Account.txt", "w") as file:
+            for i, line in enumerate(all_text):
+                if account_number in line:
+                    result = line.split()
+                    customer_budget = result[-7]
+                    customer_budget = int(customer_budget)
+                    customer_budget -= int(amount)
+                    customer_budget = str(customer_budget)
+                    text_list = re.findall(r'\S+|\s', line)
+                    text_list[-14] = customer_budget
+                    all_text[i] = ''.join(text_list)
+
+        with open("Account.txt", "w") as file:
+            file.writelines(all_text)
+
+        print(f"Your withdraw applied successfully")
 
 
     def open_acccount(self, branch_name):

@@ -28,16 +28,17 @@ def menu():
                 print("Enter the number of your request\n")
                 request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
 
+                account_number = words[12]
+
                 if request_code == 1:
-                    account_number = words[12]
                     customer_branch_name = words[-2]
                     Customer.loan_request(customer, account_number, customer_branch_name)
                 elif request_code == 2:
                     deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
-                    Customer.deposit(deposit_amount, account_number, words[-7])
+                    Customer.deposit(customer, deposit_amount, account_number)
                 elif request_code == 3:
                     withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
-                    customer.withdraw(withdraw_amount, customer[2], customer[3])
+                    Customer.withdraw(customer, withdraw_amount, account_number)
                 else:
                     print("Exception!!!")
             else:
