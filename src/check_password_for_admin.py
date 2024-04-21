@@ -4,6 +4,6 @@ def check_password_for_admin(password):
         text = ''.join(text)
 
     if password == text:
-        return "Succeed\nHi admin"
+        return "Succeed\nHi Alireza.P"
     else:
         return "Failed!"

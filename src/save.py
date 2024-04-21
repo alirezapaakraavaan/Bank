@@ -4,7 +4,7 @@ def save_bank(bank_name, bank_id):
 
 
 def save_branch(name, bank_id, number_of_customers, budget, city_name):
-    with open("Branch.txt", "w") as file:
+    with open("Branch.txt", "a") as file:
         file.write(f"Branch: {name} {bank_id}, {number_of_customers}, {budget}, {city_name}\n")
 
 

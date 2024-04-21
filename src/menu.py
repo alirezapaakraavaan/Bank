@@ -1,5 +1,7 @@
 from src.check_password_for_admin import check_password_for_admin
 from Customer.customer import Customer
+from Admin.admin import Admin
+from src.get_customer_details import get_customer_details
 
 def menu():
     role = input("\n\nWelcome to the BANK\n\nIf you are a user please enter number 1 and if you are admin enter 2 to enter: ")
@@ -7,21 +9,20 @@ def menu():
     if role == "1":
         user = int(input("If you have an account enter 1 and if you are new please enter 2: "))
         if user == 1:
-            customer = Customer()
             national_code = int(input("Please enter your National code to enter: "))
-            customer.national_code = national_code
+            customer = get_customer_details(national_code)
             print(f"Hi {customer.name}\n\n")
             print("Enter the number of your request\n")
-            request_code = input("1.Request loan\n2.Deposit\n3.Withdraw")
+            request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw"))
 
             if request_code == 1:
-                customer.loan_request(customer.account_number, customer.account_amount, customer.customer_branch)
+                customer.loan_request(customer[2], customer[3], customer[4])
             elif request_code == 2:
                 deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
-                customer.deposit(deposit_amount, customer.account_number, customer.account_amount)
+                customer.deposit(deposit_amount, customer[2], customer[3])
             elif request_code == 3:
                 withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
-                customer.withdraw(withdraw_amount, customer.account_number, customer.account_amount)
+                customer.withdraw(withdraw_amount, customer[2], customer[3])
             else:
                 print("Exception!!!")
         else:
@@ -42,7 +43,7 @@ def menu():
             customer.open_acccount(customer_branch)
             print("Your account just create\n")
             print("Enter the number of your request\n")
-            request_code = input("1.Request loan\n2.Deposit\n3.Withdraw")
+            request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw"))
 
             if request_code == 1:
                 customer.loan_request(customer.account_number, customer.account_amount, customer.customer_branch)
@@ -56,4 +57,20 @@ def menu():
                 print("Exception!!!")
     else:
         password = input("Enter the password: \n\n")
-        check_password_for_admin(password)
+        result = check_password_for_admin(password)
+
+        if result == "Succeed\nHi Alireza.P":
+            admin = Admin("Alireza", "Pakravan", 2283063991, "Alireza1234509876")
+            print("Enter the number of your request\n")
+            request_code = int(input("1.Create bank\n2.Create branch\n3.Determine budget\n4.Change password\n"))
+
+            if request_code == 1:
+                admin.create_bank()
+            elif request_code == 2:
+                admin.create_branch()
+            elif request_code == 3:
+                admin.determine_budget()
+            elif request_code == 4:
+                admin.change_password()
+            else:
+                print("Exception!!!")
