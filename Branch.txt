@@ -1,2 +1,2 @@
-Branch: Aval_Branch 1, 0, 1000000, Shiraz
+Branch: Aval_Branch 1, 2, 3000000, Shiraz
 Branch: Dovom_Branch 2, 0, 5000000, Tehran

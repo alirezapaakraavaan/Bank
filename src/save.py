@@ -14,5 +14,5 @@ def save_password(password):
 
 
 def save_account(full_name, national_code, account_number, account_amount, branch_name):
-    with open("Account.txt", "w") as file:
+    with open("Account.txt", "a") as file:
         file.write(f"Account: {full_name} with national code of {national_code} and account number of {account_number} has {account_amount} in their account in {branch_name} branch\n")

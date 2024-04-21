@@ -1,9 +1,10 @@
-from Branch.branch import Branch
 from Account.account import Account
 from src.save import *
 from src.loan_number_generator import loan_number_generator
 from src.account_number_generator import account_number_generator
 from src.get_user_branch_name import get_user_branch_name
+from src.increase_branch_customer_count import increase_branch_customer_count
+import re
 
 
 class Customer():
@@ -32,28 +33,46 @@ class Customer():
             print(text)
 
 
-    def loan_request(self, account_number, account_amount, customer_branch):
-        if self.account_number == account_number:
-            loan_amount = int(input("Enter the amount of loan you are requesting: "))
+    @staticmethod
+    def loan_request(self: str, account_number, customer_branch):
+        self = self.split()
+        loan_amount = int(input("Enter the amount of loan you are requesting: "))
 
-            with open("Branch.txt", "r") as file:
-                for text in file:
-                    if customer_branch in text:
-                        text = text.strip()
-                        branch_budget = text.split()[3]
-                    else:
-                        print("Branch not found!")
+        with open("Branch.txt", "r") as file:
+            for text in file.readlines():
+                if customer_branch in text:
+                    branch_budget = increase_branch_customer_count(customer_branch, 2)
+                    branch_budget = int(branch_budget)
+                    break
+                else:
+                    print("Branch not found!")
 
-            if loan_amount <= branch_budget:
-                account_amount += loan_amount
-                print(f"You recieved your loan {self.name}")
-            else:
-                print(f"Sorry {self.name} your branch does not have this amount of loan you are requesting at the moment")
-                
+        if loan_amount <= branch_budget:
+            with open("Account.txt", "r") as file:
+                all_text = file.readlines()
+
+            with open("Account.txt", "w") as file:
+                for i, line in enumerate(all_text):
+                    if account_number in line:
+                        result = line.split()
+                        customer_budget = result[-7]
+                        customer_budget = int(customer_budget)
+                        customer_budget += loan_amount
+                        customer_budget = str(customer_budget)
+                        text_list = re.findall(r'\S+|\s', line)
+                        text_list[-14] = customer_budget
+                        all_text[i] = ''.join(text_list)
+
+            with open("Account.txt", "w") as file:
+                file.writelines(all_text)
+
+
+            print(f"You recieved your loan")
         else:
-            print("Exception!!!")
+            print(f"Sorry your branch does not have this amount of loan you are requesting at the moment")
 
 
+    @staticmethod
     def deposit(self, amount, account_number, account_amount):
         if self.account_number == account_number:
             account_amount += amount
@@ -62,6 +81,7 @@ class Customer():
             print("Exception!!!")
 
 
+    @staticmethod
     def withdraw(self, amount, account_number, account_amount):
         if self.account_number == account_number:
             account_amount -= amount
@@ -74,5 +94,7 @@ class Customer():
         account = Account(0, f"{self.name} {self.family}")
 
         user_branch = get_user_branch_name(branch_name)
+
+        increase_branch_customer_count(branch_name, 1) 
 
         save_account(account.account_owner, self.national_code, account.account_number, account.account_amount, user_branch)

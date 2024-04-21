@@ -4,27 +4,43 @@ from Admin.admin import Admin
 from src.get_customer_details import get_customer_details
 
 def menu():
-    role = input("\n\nWelcome to the BANK\n\nIf you are a user please enter number 1 and if you are admin enter 2 to enter: ")
+    role = int(input("\n\nWelcome to the BANK\n\nIf you are a user please enter number 1 and if you are admin enter 2 to enter: "))
 
-    if role == "1":
+    if role == 1:
         user = int(input("If you have an account enter 1 and if you are new please enter 2: "))
-        if user == 1:
-            national_code = int(input("Please enter your National code to enter: "))
-            customer = get_customer_details(national_code)
-            print(f"Hi {customer.name}\n\n")
-            print("Enter the number of your request\n")
-            request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw"))
 
-            if request_code == 1:
-                customer.loan_request(customer[2], customer[3], customer[4])
-            elif request_code == 2:
-                deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
-                customer.deposit(deposit_amount, customer[2], customer[3])
-            elif request_code == 3:
-                withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
-                customer.withdraw(withdraw_amount, customer[2], customer[3])
+        if user == 1:
+            national_code = input("Please enter your National code to enter: ")
+            customer = get_customer_details(national_code)
+
+            if customer != "Not found!":
+                with open("Account.txt", "r") as file:
+                    all_text = file.readlines()
+                    for i, line in enumerate(all_text):
+                        if national_code in line:
+                            all_text[i] = line.strip()
+                            words = all_text[i].split()
+                            customer_name = words[1]
+
+                all_text[i] = line.replace(line, "")
+                print(f"Hi {customer_name}\n\n")
+                print("Enter the number of your request\n")
+                request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
+
+                if request_code == 1:
+                    account_number = words[12]
+                    customer_branch_name = words[-2]
+                    Customer.loan_request(customer, account_number, customer_branch_name)
+                elif request_code == 2:
+                    deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
+                    Customer.deposit(deposit_amount, account_number, words[-7])
+                elif request_code == 3:
+                    withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
+                    customer.withdraw(withdraw_amount, customer[2], customer[3])
+                else:
+                    print("Exception!!!")
             else:
-                print("Exception!!!")
+                print("You are not a user!")
         else:
             print("WELCOME\n")
             customer_name = input("Please enter your name: ")
@@ -43,10 +59,10 @@ def menu():
             customer.open_acccount(customer_branch)
             print("Your account just create\n")
             print("Enter the number of your request\n")
-            request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw"))
+            request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
 
             if request_code == 1:
-                customer.loan_request(customer.account_number, customer.account_amount, customer.customer_branch)
+                customer.loan_request(customer.account_number, customer.customer_branch)
             elif request_code == 2:
                 deposit_amount = int(input("Please enter the amount of money you want to deposit: "))
                 customer.deposit(deposit_amount, customer.account_number, customer.account_amount)
