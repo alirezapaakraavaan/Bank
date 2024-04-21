@@ -23,6 +23,7 @@ def menu():
                             customer_name = words[1]
 
                 all_text[i] = line.replace(line, "")
+            
                 print(f"Hi {customer_name}\n\n")
                 print("Enter the number of your request\n")
                 request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
