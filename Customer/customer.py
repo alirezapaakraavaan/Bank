@@ -19,11 +19,13 @@ class Customer():
         self.customer_branch = ""
 
 
-    def show_details(self, national_code=None):
+    @staticmethod
+    def show_details(national_code=None):
         with open("Account.txt", "r") as file:
             for text in file:
                 if national_code in text:
                     print(text.strip())
+                    break
                 elif national_code==None:
                     text = file.readlines()
                     text = ''.join(text)

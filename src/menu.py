@@ -26,7 +26,7 @@ def menu():
             
                 print(f"Hi {customer_name}\n\n")
                 print("Enter the number of your request\n")
-                request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n"))
+                request_code = int(input("1.Request loan\n2.Deposit\n3.Withdraw\n4.Show account details\n"))
 
                 account_number = words[12]
 
@@ -39,6 +39,8 @@ def menu():
                 elif request_code == 3:
                     withdraw_amount = int(input("Please enter the amount of money you want to withdraw: "))
                     Customer.withdraw(customer, withdraw_amount, account_number)
+                elif request_code == 4:
+                    Customer.show_details(national_code)
                 else:
                     print("Exception!!!")
             else:
